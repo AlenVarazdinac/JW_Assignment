@@ -1,11 +1,11 @@
 <script setup lang="ts">
-type Status = 'Rejected' | 'Approved' | 'Pending'
+import type { ApplicationStatus } from '~/types/visa-application'
 
 defineProps<{
-  status: Status
+  status: ApplicationStatus
 }>()
 
-const config: Record<Status, { icon: string, classes: string }> = {
+const config: Record<ApplicationStatus, { icon: string, classes: string }> = {
   Rejected: { icon: 'custom:close-circle', classes: 'bg-error-100 text-error-600' },
   Approved: { icon: 'custom:check-circle', classes: 'bg-success-100 text-success-700' },
   Pending: { icon: 'custom:history', classes: 'bg-warning-100 text-warning-500' }

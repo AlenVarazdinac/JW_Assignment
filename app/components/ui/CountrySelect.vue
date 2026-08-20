@@ -94,6 +94,7 @@ onUnmounted(() => document.removeEventListener('click', handleClickOutside))
             class="size-5 shrink-0 rounded-full object-cover"
           />
           <span class="flex-1 truncate text-placeholder text-black">{{ modelValue.name }}</span>
+          <span class="text-body-xs text-gray-400">{{ modelValue.capital || '-' }}</span>
         </template>
         <span
           v-else
@@ -150,7 +151,8 @@ onUnmounted(() => document.removeEventListener('click', handleClickOutside))
               :alt="`${country.name} flag`"
               class="size-5 shrink-0 rounded-full object-cover"
             />
-            <span>{{ country.name }}</span>
+            <span class="flex-1 truncate">{{ country.name }}</span>
+            <span class="text-body-xs text-gray-400">{{ country.capital || '-' }}</span>
           </li>
         </ul>
       </div>

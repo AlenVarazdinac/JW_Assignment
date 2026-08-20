@@ -93,7 +93,7 @@
   --font-plus-jakarta: "Plus Jakarta Sans", sans-serif;
 }
 
-/* One class per Figma text style — bundles family/weight/size/line-height/letter-spacing together. */
+/* One class per Figma text style - bundles family/weight/size/line-height/letter-spacing together. */
 @layer components {
   .text-heading-m {
     font-family: var(--font-dm-sans);
