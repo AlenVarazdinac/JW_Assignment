@@ -20,17 +20,17 @@ const filteredCountries = computed(() => {
   const query = search.value.trim().toLowerCase()
 
   return props.countries
-    .filter((country) => country.cca2 !== props.excludeCca2)
-    .filter((country) => !query || country.name.toLowerCase().includes(query))
+    .filter(country => country.cca2 !== props.excludeCca2)
+    .filter(country => !query || country.name.toLowerCase().includes(query))
 })
 
-function selectCountry(country: Country) {
+function selectCountry (country: Country) {
   emit('update:modelValue', country)
   search.value = ''
   isOpen.value = false
 }
 
-function handleClickOutside(event: MouseEvent) {
+function handleClickOutside (event: MouseEvent) {
   if (rootEl.value && !rootEl.value.contains(event.target as Node)) {
     isOpen.value = false
   }
@@ -41,29 +41,49 @@ onUnmounted(() => document.removeEventListener('click', handleClickOutside))
 </script>
 
 <template>
-  <div ref="rootEl" class="country-select">
+  <div
+    ref="rootEl"
+    class="country-select"
+  >
     <label class="country-select__label">{{ label }}</label>
 
-    <button type="button" class="country-select__trigger" @click="isOpen = !isOpen">
+    <button
+      type="button"
+      class="country-select__trigger"
+      @click="isOpen = !isOpen"
+    >
       <template v-if="modelValue">
-        <img :src="modelValue.flagUrl" :alt="`${modelValue.name} flag`" class="country-select__flag">
+        <img
+          :src="modelValue.flagUrl"
+          :alt="`${modelValue.name} flag`"
+          class="country-select__flag"
+        />
         <span class="country-select__name">{{ modelValue.name }}</span>
         <span class="country-select__capital">{{ modelValue.capital || '—' }}</span>
       </template>
-      <span v-else class="country-select__placeholder">Select a country</span>
+      <span
+        v-else
+        class="country-select__placeholder"
+      >Select a country</span>
     </button>
 
-    <div v-if="isOpen" class="country-select__panel">
+    <div
+      v-if="isOpen"
+      class="country-select__panel"
+    >
       <input
         v-model="search"
         type="text"
         placeholder="Search country..."
         class="country-select__search"
         autofocus
-      >
+      />
 
       <ul class="country-select__list">
-        <li v-if="filteredCountries.length === 0" class="country-select__empty">
+        <li
+          v-if="filteredCountries.length === 0"
+          class="country-select__empty"
+        >
           No countries found
         </li>
         <li
@@ -72,7 +92,11 @@ onUnmounted(() => document.removeEventListener('click', handleClickOutside))
           class="country-select__option"
           @click="selectCountry(country)"
         >
-          <img :src="country.flagUrl" :alt="`${country.name} flag`" class="country-select__flag">
+          <img
+            :src="country.flagUrl"
+            :alt="`${country.name} flag`"
+            class="country-select__flag"
+          />
           <span class="country-select__name">{{ country.name }}</span>
           <span class="country-select__capital">{{ country.capital || '—' }}</span>
         </li>
