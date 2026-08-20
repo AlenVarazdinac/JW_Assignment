@@ -58,7 +58,7 @@ const supportTextClasses = computed(() => {
         :value="modelValue"
         :type="type ?? 'text'"
         :placeholder="placeholder"
-        :disabled="disabled"
+        :disabled
         :autocomplete="autocomplete"
         :name="name"
         :autofocus="autofocus"
