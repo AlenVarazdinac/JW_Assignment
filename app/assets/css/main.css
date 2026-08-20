@@ -1,0 +1,187 @@
+@import "tailwindcss";
+
+@theme {
+  /* Reset Tailwind's default palette */
+  --color-*: initial;
+
+  --color-white: #FFFFFF;
+  --color-black: #000000;
+
+  --color-gray-25: #FCFCFC;
+  --color-gray-50: #FAFAFA;
+  --color-gray-100: #F4F4F5;
+  --color-gray-200: #E4E4E7;
+  --color-gray-300: #D1D1D6;
+  --color-gray-400: #A0A0AB;
+  --color-gray-500: #70707B;
+  --color-gray-600: #51525C;
+  --color-gray-700: #3F3F46;
+  --color-gray-800: #26272B;
+  --color-gray-900: #18181B;
+
+  --color-primary-25: #F1E9FF;
+  --color-primary-50: #D6BEFF;
+  --color-primary-100: #BF99FF;
+  --color-primary-200: #A772FF;
+  --color-primary-300: #8F4BFF;
+  --color-primary-400: #7420FE;
+  --color-primary-500: #5F07EF;
+  --color-primary-600: #4F00D0;
+  --color-primary-700: #3F00A6;
+  --color-primary-800: #2D0078;
+  --color-primary-900: #200055;
+
+  --color-success-25: #F6FEF9;
+  --color-success-50: #ECFDF3;
+  --color-success-100: #D1FADF;
+  --color-success-200: #A6F4C5;
+  --color-success-300: #6CE9A6;
+  --color-success-400: #32D583;
+  --color-success-500: #12B76A;
+  --color-success-600: #039855;
+  --color-success-700: #027948;
+  --color-success-800: #05603A;
+  --color-success-900: #054F31;
+
+  --color-error-25: #FFFAFA;
+  --color-error-50: #FEF3F2;
+  --color-error-100: #FEE4E2;
+  --color-error-200: #FECDC9;
+  --color-error-300: #FDA19B;
+  --color-error-400: #F97066;
+  --color-error-500: #F04438;
+  --color-error-600: #D92D20;
+  --color-error-700: #B32318;
+  --color-error-800: #912018;
+  --color-error-900: #7A271A;
+
+  --color-warning-25: #FFFCF5;
+  --color-warning-50: #FFFAEB;
+  --color-warning-100: #FEEFC6;
+  --color-warning-200: #FEDF89;
+  --color-warning-300: #FEC84B;
+  --color-warning-400: #FDB022;
+  --color-warning-500: #F79009;
+  --color-warning-600: #DC6803;
+  --color-warning-700: #B54708;
+  --color-warning-800: #93370D;
+  --color-warning-900: #792E0D;
+
+  --color-info-25: #F5FAFF;
+  --color-info-50: #EFF8FF;
+  --color-info-100: #D1E9FF;
+  --color-info-200: #B2DDFF;
+  --color-info-300: #84CAFF;
+  --color-info-400: #53B1FD;
+  --color-info-500: #2E90FA;
+  --color-info-600: #1570EF;
+  --color-info-700: #175CD3;
+  --color-info-800: #1849A9;
+  --color-info-900: #194185;
+
+  /* Reset Tailwind's default shadows */
+  --shadow-*: initial;
+
+  --shadow-elevation-1: 0px 2px 4px 0px rgba(0, 0, 0, 0.04);
+  --shadow-elevation-2: 0px 4px 8px 0px rgba(0, 0, 0, 0.04);
+  --shadow-elevation-3: 0px 6px 14px 0px rgba(0, 0, 0, 0.04);
+  --shadow-elevation-4: 0px 8px 20px 0px rgba(0, 0, 0, 0.04);
+  --shadow-elevation-5: 0px 26px 26px 0px rgba(0, 0, 0, 0.03);
+
+  /* Fonts */
+  --font-dm-sans: "DM Sans", sans-serif;
+  --font-plus-jakarta: "Plus Jakarta Sans", sans-serif;
+}
+
+/* One class per Figma text style — bundles family/weight/size/line-height/letter-spacing together. */
+@layer components {
+  .text-heading-m {
+    font-family: var(--font-dm-sans);
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 30px;
+    letter-spacing: -0.03em;
+  }
+
+  .text-heading-m-bold {
+    font-family: var(--font-plus-jakarta);
+    font-weight: 800;
+    font-size: 24px;
+    line-height: 27px;
+    letter-spacing: 0em;
+  }
+
+  .text-heading-s {
+    font-family: var(--font-dm-sans);
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 27px;
+    letter-spacing: -0.03em;
+  }
+
+  .text-body-s {
+    font-family: var(--font-plus-jakarta);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 23px;
+  }
+
+  .text-body-xs {
+    font-family: var(--font-plus-jakarta);
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 17px;
+  }
+
+  .text-button-l {
+    font-family: var(--font-dm-sans);
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 22px;
+    letter-spacing: -0.03em;
+  }
+
+  .text-button-m {
+    font-family: var(--font-dm-sans);
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: -0.03em;
+  }
+
+  .text-button-s {
+    font-family: var(--font-dm-sans);
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: -0.03em;
+  }
+
+  .text-chip {
+    font-family: var(--font-plus-jakarta);
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 18px;
+  }
+
+  .text-input-label {
+    font-family: var(--font-plus-jakarta);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 23px;
+  }
+
+  .text-placeholder {
+    font-family: var(--font-plus-jakarta);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+  }
+
+  .text-helper-error {
+    font-family: var(--font-plus-jakarta);
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 21px;
+  }
+}
