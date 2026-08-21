@@ -15,24 +15,7 @@ const emit = defineEmits<{
   'update:modelValue': [value: Country | null]
 }>()
 
-const search = ref('')
-const isOpen = ref(false)
-const rootEl = ref<HTMLElement | null>(null)
-const searchInputEl = ref<HTMLInputElement | null>(null)
-
-watch(isOpen, async (open) => {
-  if (!open) return
-  await nextTick()
-  searchInputEl.value?.focus()
-})
-
-const filteredCountries = computed(() => {
-  const query = search.value.trim().toLowerCase()
-
-  return props.countries
-    .filter(country => country.cca2 !== props.excludeCca2)
-    .filter(country => !query || country.name.toLowerCase().includes(query))
-})
+const triggerId = useId()
 
 const fieldClasses = computed(() => {
   if (props.disabled) return 'border-gray-100 text-gray-300'
@@ -45,137 +28,77 @@ const supportTextClasses = computed(() => {
   if (props.error) return 'text-error-800'
   return 'text-gray-700'
 })
-
-function selectCountry (country: Country) {
-  emit('update:modelValue', country)
-  search.value = ''
-  isOpen.value = false
-}
-
-function clearSearch () {
-  search.value = ''
-  searchInputEl.value?.focus()
-}
-
-function handleClickOutside (event: MouseEvent) {
-  if (rootEl.value && !rootEl.value.contains(event.target as Node)) {
-    isOpen.value = false
-  }
-}
-
-onMounted(() => document.addEventListener('click', handleClickOutside))
-onUnmounted(() => document.removeEventListener('click', handleClickOutside))
 </script>
 
 <template>
-  <div
-    ref="rootEl"
-    class="flex flex-col gap-2"
-  >
+  <div class="flex flex-col gap-2">
     <label
+      :for="triggerId"
       class="text-input-label"
       :class="disabled ? 'text-gray-400' : 'text-gray-800'"
     >
       {{ label }}
     </label>
 
-    <div class="relative">
-      <div
-        class="flex h-14 w-full items-center gap-2 rounded-xl border-[1.5px] bg-white px-4 py-3 shadow-elevation-1 transition-colors"
-        :class="fieldClasses"
-      >
-        <button
-          type="button"
-          :disabled
-          class="flex flex-1 cursor-pointer items-center gap-2 text-left disabled:cursor-not-allowed"
-          @click="isOpen = !isOpen"
+    <UiDropdownSelect
+      :model-value="modelValue"
+      :countries="countries"
+      :exclude-cca2="excludeCca2"
+      @update:model-value="emit('update:modelValue', $event)"
+    >
+      <template #trigger="{ toggle }">
+        <label
+          :for="triggerId"
+          class="flex h-14 w-full items-center gap-2 rounded-xl border-[1.5px] bg-white px-4 py-3 shadow-elevation-1 transition-colors"
+          :class="fieldClasses"
         >
-          <template v-if="modelValue">
-            <img
-              :src="modelValue.flagUrl"
-              :alt="`${modelValue.name} flag`"
-              class="size-5 shrink-0 rounded-full object-cover"
-            />
-            <span class="flex-1 truncate text-placeholder text-black">{{ modelValue.name }}</span>
-            <span class="text-body-xs text-gray-400">{{ modelValue.capital || '-' }}</span>
-          </template>
-          <span
-            v-else
-            class="flex-1 text-placeholder text-gray-400"
-          >Select a country...</span>
-        </button>
-
-        <button
-          v-if="modelValue && !disabled"
-          type="button"
-          aria-label="Clear selection"
-          class="flex size-5 shrink-0 cursor-pointer items-center justify-center text-gray-400 hover:text-gray-700"
-          @click.stop="emit('update:modelValue', null)"
-        >
-          <Icon
-            name="custom:close-circle"
-            class="size-5"
-          />
-        </button>
-        <Icon
-          v-else
-          name="custom:search"
-          class="size-5 shrink-0"
-        />
-      </div>
-
-      <div
-        v-if="isOpen"
-        class="absolute top-full left-0 z-10 mt-1 w-full overflow-hidden rounded-xl border border-gray-100 bg-white shadow-elevation-3"
-      >
-        <div class="flex items-center gap-2 border-b border-gray-100 bg-gray-25 px-4 py-3">
-          <Icon
-            name="custom:search"
-            class="size-5 shrink-0 text-gray-400"
-          />
-          <input
-            ref="searchInputEl"
-            v-model="search"
-            type="text"
-            placeholder="Search country..."
-            class="w-full bg-transparent text-placeholder text-black outline-none placeholder:text-gray-400"
-          />
           <button
-            v-if="search"
+            :id="triggerId"
             type="button"
-            aria-label="Clear search"
-            class="flex size-5 shrink-0 items-center justify-center text-lg leading-none text-gray-400 hover:text-gray-700 cursor-pointer"
-            @click.stop="clearSearch"
+            :disabled
+            class="flex flex-1 cursor-pointer items-center gap-2 text-left disabled:cursor-not-allowed"
+            @click="toggle"
           >
-            ×
+            <template v-if="modelValue">
+              <img
+                :src="modelValue.flagUrl"
+                :alt="`${modelValue.name} flag`"
+                class="size-5 shrink-0 rounded-full object-cover"
+              />
+              <span class="flex-1 truncate text-placeholder text-black">{{ modelValue.name }}</span>
+              <span class="text-body-xs text-gray-400">{{ modelValue.capital || '-' }}</span>
+            </template>
+            <span
+              v-else
+              class="flex-1 text-placeholder text-gray-400"
+            >Select a country...</span>
           </button>
-        </div>
 
-        <ul class="max-h-60 overflow-y-auto">
-          <li
-            v-if="filteredCountries.length === 0"
-            class="px-4 py-3 text-body-s text-gray-400"
+          <button
+            v-if="modelValue && !disabled"
+            type="button"
+            aria-label="Clear selection"
+            class="flex size-5 shrink-0 cursor-pointer items-center justify-center text-gray-400 hover:text-gray-700"
+            @click.stop="emit('update:modelValue', null)"
           >
-            No countries found
-          </li>
-          <li
-            v-for="country in filteredCountries"
-            :key="country.cca2"
-            class="flex cursor-pointer items-center gap-2 px-4 py-2.5 text-placeholder text-black hover:bg-gray-50"
-            @click="selectCountry(country)"
-          >
-            <img
-              :src="country.flagUrl"
-              :alt="`${country.name} flag`"
-              loading="lazy"
-              class="size-5 shrink-0 rounded-full object-cover"
+            <Icon
+              name="custom:close-circle"
+              class="size-5"
             />
-            <span class="flex-1 truncate">{{ country.name }}</span>
-            <span class="text-body-xs text-gray-400">{{ country.capital || '-' }}</span>
-          </li>
-        </ul>
-      </div>
-    </div>
+          </button>
+          <Icon
+            v-else
+            name="custom:search"
+            class="size-5 shrink-0"
+          />
+        </label>
+      </template>
+
+      <template #row="{ country }">
+        <span class="flex-1 truncate">{{ country.name }}</span>
+        <span class="text-body-xs text-gray-400">{{ country.capital || '-' }}</span>
+      </template>
+    </UiDropdownSelect>
 
     <p
       v-if="supportText"

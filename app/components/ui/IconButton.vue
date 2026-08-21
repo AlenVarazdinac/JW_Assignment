@@ -1,14 +1,17 @@
 <script setup lang="ts">
 type Variant = 'primary' | 'primary-outline' | 'white' | 'gray-outline'
+type Size = 'md' | 'sm'
 
 withDefaults(
   defineProps<{
     label: string
     variant?: Variant
+    size?: Size
     disabled?: boolean
   }>(),
   {
     variant: 'primary',
+    size: 'md',
     disabled: false
   }
 )
@@ -23,6 +26,11 @@ const variantClasses: Record<Variant, string> = {
   'gray-outline':
     'border border-gray-100 text-gray-900 hover:border-gray-200 disabled:border-gray-100 disabled:text-gray-300'
 }
+
+const sizeClasses: Record<Size, string> = {
+  md: 'size-13 p-4',
+  sm: 'size-11.5 p-3.25'
+}
 </script>
 
 <template>
@@ -30,8 +38,8 @@ const variantClasses: Record<Variant, string> = {
     type="button"
     :aria-label="label"
     :disabled
-    class="inline-flex size-13 cursor-pointer items-center justify-center rounded-full p-4 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 disabled:pointer-events-none disabled:cursor-not-allowed"
-    :class="variantClasses[variant]"
+    class="inline-flex cursor-pointer items-center justify-center rounded-full transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 disabled:pointer-events-none disabled:cursor-not-allowed"
+    :class="[variantClasses[variant], sizeClasses[size]]"
   >
     <slot />
   </button>

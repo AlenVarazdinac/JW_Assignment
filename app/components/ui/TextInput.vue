@@ -6,6 +6,7 @@ const props = defineProps<{
   supportText?: string
   disabled?: boolean
   error?: boolean
+  readonly?: boolean
   type?: string
   autocomplete?: string
   name?: string
@@ -14,7 +15,10 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   'update:modelValue': [value: string]
+  'blur': [event: FocusEvent]
 }>()
+
+const inputId = useId()
 
 function handleInput (event: Event) {
   emit('update:modelValue', (event.target as HTMLInputElement).value)
@@ -29,7 +33,7 @@ const fieldClasses = computed(() => {
 const placeholderClasses = computed(() => {
   if (props.disabled) return ''
   if (props.error) return 'placeholder:text-gray-800'
-  return 'placeholder:text-gray-400 focus:placeholder:text-gray-800'
+  return 'placeholder:text-gray-400'
 })
 
 const supportTextClasses = computed(() => {
@@ -43,31 +47,36 @@ const supportTextClasses = computed(() => {
   <div class="flex flex-col gap-2">
     <label
       v-if="label"
+      :for="inputId"
       class="text-input-label"
       :class="disabled ? 'text-gray-400' : 'text-gray-800'"
     >
       {{ label }}
     </label>
 
-    <div
+    <label
+      :for="inputId"
       class="flex h-14 items-center gap-2 rounded-xl border-[1.5px] bg-white px-4 py-3 shadow-elevation-1 transition-colors"
       :class="fieldClasses"
     >
       <slot name="leading" />
       <input
+        :id="inputId"
         :value="modelValue"
         :type="type ?? 'text'"
         :placeholder="placeholder"
         :disabled
+        :readonly
         :autocomplete="autocomplete"
         :name="name"
         :autofocus="autofocus"
         class="w-full bg-transparent text-placeholder text-black outline-none placeholder:font-dm-sans placeholder:text-[16px] placeholder:leading-6.25 placeholder:tracking-[-0.03em] disabled:text-gray-300 disabled:placeholder:text-gray-300"
         :class="placeholderClasses"
         @input="handleInput"
+        @blur="emit('blur', $event)"
       />
       <slot name="trailing" />
-    </div>
+    </label>
 
     <p
       v-if="supportText"
