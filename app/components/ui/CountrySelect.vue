@@ -87,7 +87,7 @@ onUnmounted(() => document.removeEventListener('click', handleClickOutside))
         <button
           type="button"
           :disabled
-          class="flex flex-1 items-center gap-2 text-left disabled:cursor-not-allowed"
+          class="flex flex-1 cursor-pointer items-center gap-2 text-left disabled:cursor-not-allowed"
           @click="isOpen = !isOpen"
         >
           <template v-if="modelValue">

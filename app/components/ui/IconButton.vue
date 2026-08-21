@@ -30,7 +30,7 @@ const variantClasses: Record<Variant, string> = {
     type="button"
     :aria-label="label"
     :disabled
-    class="inline-flex size-13 items-center justify-center rounded-full p-4 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 disabled:pointer-events-none"
+    class="inline-flex size-13 cursor-pointer items-center justify-center rounded-full p-4 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 disabled:pointer-events-none disabled:cursor-not-allowed"
     :class="variantClasses[variant]"
   >
     <slot />
