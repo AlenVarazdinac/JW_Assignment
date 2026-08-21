@@ -32,7 +32,6 @@ const fieldClasses = computed(() => {
 
 const placeholderClasses = computed(() => {
   if (props.disabled) return ''
-  if (props.error) return 'placeholder:text-gray-800'
   return 'placeholder:text-gray-400'
 })
 

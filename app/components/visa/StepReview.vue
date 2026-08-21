@@ -83,6 +83,9 @@ function submit () {
               <p class="text-body-xs text-gray-800">
                 Pop: {{ route.citizenship.population.toLocaleString('en-US') }} &bull; {{ route.citizenship.region }}
               </p>
+              <p class="text-body-xs text-gray-800">
+                {{ route.citizenship.languages.join(', ') }}
+              </p>
             </div>
           </div>
 
@@ -101,6 +104,9 @@ function submit () {
               </p>
               <p class="text-body-xs text-gray-800">
                 Pop: {{ route.destination.population.toLocaleString('en-US') }} &bull; {{ route.destination.region }}
+              </p>
+              <p class="text-body-xs text-gray-800">
+                {{ route.destination.languages.join(', ') }}
               </p>
             </div>
           </div>
