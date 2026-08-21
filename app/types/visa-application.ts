@@ -8,6 +8,7 @@ export interface VisaApplication {
   fullName: string
   email: string
   phone: string
+  phoneCountry: Country | null
   dateOfBirth: string
   passportNumber: string
 }

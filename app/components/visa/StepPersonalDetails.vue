@@ -1,15 +1,12 @@
 <script setup lang="ts">
-import type { Country } from '~/types/country'
-
 const visaApplicationStore = useVisaApplicationStore()
 const { application, errors } = storeToRefs(visaApplicationStore)
 const { nextStep, prevStep } = visaApplicationStore
 const { countries } = useCountries()
 
-const phoneCountryOverride = ref<Country | null>(null)
 const phoneCountry = computed({
-  get: () => phoneCountryOverride.value ?? application.value.citizenship,
-  set: value => (phoneCountryOverride.value = value)
+  get: () => application.value.phoneCountry ?? application.value.citizenship,
+  set: value => (application.value.phoneCountry = value)
 })
 </script>
 

@@ -8,6 +8,7 @@ function createApplication (): VisaApplication {
     fullName: '',
     email: '',
     phone: '',
+    phoneCountry: null,
     dateOfBirth: '',
     passportNumber: ''
   }

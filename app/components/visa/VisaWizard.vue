@@ -7,5 +7,6 @@ const { currentStep } = storeToRefs(useVisaApplicationStore())
     <VisaWizardStepper :current-step="currentStep" />
     <VisaStepCountrySelection v-if="currentStep === 1" />
     <VisaStepPersonalDetails v-else-if="currentStep === 2" />
+    <VisaStepReview v-else-if="currentStep === 3" />
   </div>
 </template>
