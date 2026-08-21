@@ -8,7 +8,7 @@
       <span class="font-plus-jakarta text-[14px] leading-5.75 font-bold text-primary-800">Visa Wizard</span>
     </header>
 
-    <main class="p-8">
+    <main class="mx-auto max-w-360 px-70 py-11">
       <slot />
     </main>
   </div>
