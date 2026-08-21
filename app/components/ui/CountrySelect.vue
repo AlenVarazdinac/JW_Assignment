@@ -70,7 +70,7 @@ onUnmounted(() => document.removeEventListener('click', handleClickOutside))
 <template>
   <div
     ref="rootEl"
-    class="flex flex-col gap-1.5"
+    class="flex flex-col gap-2"
   >
     <label
       class="text-input-label"
@@ -80,31 +80,49 @@ onUnmounted(() => document.removeEventListener('click', handleClickOutside))
     </label>
 
     <div class="relative">
-      <button
-        type="button"
-        :disabled
-        class="flex h-14 w-full items-center gap-2 rounded-xl border-[1.5px] bg-white px-4 py-3 text-left shadow-elevation-1 transition-colors disabled:cursor-not-allowed"
+      <div
+        class="flex h-14 w-full items-center gap-2 rounded-xl border-[1.5px] bg-white px-4 py-3 shadow-elevation-1 transition-colors"
         :class="fieldClasses"
-        @click="isOpen = !isOpen"
       >
-        <template v-if="modelValue">
-          <img
-            :src="modelValue.flagUrl"
-            :alt="`${modelValue.name} flag`"
-            class="size-5 shrink-0 rounded-full object-cover"
+        <button
+          type="button"
+          :disabled
+          class="flex flex-1 items-center gap-2 text-left disabled:cursor-not-allowed"
+          @click="isOpen = !isOpen"
+        >
+          <template v-if="modelValue">
+            <img
+              :src="modelValue.flagUrl"
+              :alt="`${modelValue.name} flag`"
+              class="size-5 shrink-0 rounded-full object-cover"
+            />
+            <span class="flex-1 truncate text-placeholder text-black">{{ modelValue.name }}</span>
+            <span class="text-body-xs text-gray-400">{{ modelValue.capital || '-' }}</span>
+          </template>
+          <span
+            v-else
+            class="flex-1 text-placeholder text-gray-400"
+          >Select a country...</span>
+        </button>
+
+        <button
+          v-if="modelValue && !disabled"
+          type="button"
+          aria-label="Clear selection"
+          class="flex size-5 shrink-0 cursor-pointer items-center justify-center text-gray-400 hover:text-gray-700"
+          @click.stop="emit('update:modelValue', null)"
+        >
+          <Icon
+            name="custom:close-circle"
+            class="size-5"
           />
-          <span class="flex-1 truncate text-placeholder text-black">{{ modelValue.name }}</span>
-          <span class="text-body-xs text-gray-400">{{ modelValue.capital || '-' }}</span>
-        </template>
-        <span
-          v-else
-          class="flex-1 text-placeholder text-gray-400"
-        >Select a country...</span>
+        </button>
         <Icon
+          v-else
           name="custom:search"
           class="size-5 shrink-0"
         />
-      </button>
+      </div>
 
       <div
         v-if="isOpen"
@@ -149,6 +167,7 @@ onUnmounted(() => document.removeEventListener('click', handleClickOutside))
             <img
               :src="country.flagUrl"
               :alt="`${country.name} flag`"
+              loading="lazy"
               class="size-5 shrink-0 rounded-full object-cover"
             />
             <span class="flex-1 truncate">{{ country.name }}</span>
