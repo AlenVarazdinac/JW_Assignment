@@ -1,3 +1,4 @@
+import Fuse from 'fuse.js'
 import type { Country } from '~/types/country'
 
 export function useCountrySearch (getCountries: () => Country[], getExcludeCca2?: () => string | undefined) {
@@ -12,13 +13,18 @@ export function useCountrySearch (getCountries: () => Country[], getExcludeCca2?
     searchInputEl.value?.focus()
   })
 
-  const filteredCountries = computed(() => {
-    const query = search.value.trim().toLowerCase()
+  const availableCountries = computed(() => {
     const exclude = getExcludeCca2?.()
+    return getCountries().filter(country => country.cca2 !== exclude)
+  })
 
-    return getCountries()
-      .filter(country => country.cca2 !== exclude)
-      .filter(country => !query || country.name.toLowerCase().includes(query))
+  // Threshold 0.4 tolerates typos like "Grmany" or "Untd Stats" while still ranking exact matches first
+  const fuse = computed(() => new Fuse(availableCountries.value, { keys: ['name'], threshold: 0.4 }))
+
+  const filteredCountries = computed(() => {
+    const query = search.value.trim()
+    if (!query) return availableCountries.value
+    return fuse.value.search(query).map(result => result.item)
   })
 
   function clearSearch () {
