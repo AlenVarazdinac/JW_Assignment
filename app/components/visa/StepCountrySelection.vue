@@ -2,7 +2,7 @@
 const visaApplicationStore = useVisaApplicationStore()
 const { application, errors } = storeToRefs(visaApplicationStore)
 const { nextStep } = visaApplicationStore
-const { countries } = useCountries()
+const { countries, pending, error } = useCountries()
 
 const validatedRoute = computed(() => {
   if (!application.value.citizenship || !application.value.destination || errors.value.destination) return null
@@ -11,13 +11,29 @@ const validatedRoute = computed(() => {
 </script>
 
 <template>
-  <div class="rounded-b-xl bg-white pt-11 pb-4">
+  <form
+    class="rounded-b-xl bg-white pt-11 pb-4"
+    @submit.prevent="nextStep"
+  >
     <div class="px-7">
       <h2 class="mb-1.5 text-heading-m-bold text-black">
         Select your journey
       </h2>
       <p class="mb-10 text-body-s text-black">
         Define your origin and destination to begin the application process.
+      </p>
+
+      <p
+        v-if="pending"
+        class="mb-4 text-body-s text-gray-500"
+      >
+        Loading countries…
+      </p>
+      <p
+        v-else-if="error"
+        class="mb-4 text-body-s text-error-600"
+      >
+        Failed to load countries. Please refresh the page.
       </p>
 
       <div
@@ -81,7 +97,7 @@ const validatedRoute = computed(() => {
     <hr class="mb-4 border-t border-gray-100" />
 
     <div class="flex justify-end px-7">
-      <UiButton @click="nextStep">
+      <UiButton type="submit">
         Continue
         <template #icon-right>
           <Icon
@@ -91,5 +107,5 @@ const validatedRoute = computed(() => {
         </template>
       </UiButton>
     </div>
-  </div>
+  </form>
 </template>

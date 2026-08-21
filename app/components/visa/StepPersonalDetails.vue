@@ -11,7 +11,10 @@ const phoneCountry = computed({
 </script>
 
 <template>
-  <div class="rounded-b-xl bg-white pt-11 pb-4">
+  <form
+    class="rounded-b-xl bg-white pt-11 pb-4"
+    @submit.prevent="nextStep"
+  >
     <div class="px-7">
       <h2 class="mb-1.5 text-heading-m-bold text-black">
         Personal Details
@@ -20,7 +23,7 @@ const phoneCountry = computed({
         Please provide accurate information as it appears on your official documents.
       </p>
 
-      <div class="grid grid-cols-2 gap-x-4 gap-y-4">
+      <div class="grid grid-cols-2 gap-4">
         <UiTextInput
           v-model="application.fullName"
           label="Full Name"
@@ -81,7 +84,7 @@ const phoneCountry = computed({
         />
       </UiIconButton>
 
-      <UiButton @click="nextStep">
+      <UiButton type="submit">
         Continue
         <template #icon-right>
           <Icon
@@ -91,5 +94,5 @@ const phoneCountry = computed({
         </template>
       </UiButton>
     </div>
-  </div>
+  </form>
 </template>

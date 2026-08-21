@@ -2,7 +2,7 @@ interface RestCountries {
   names: { common: string }
   codes: { alpha_2: string }
   capitals: { name: string }[]
-  flag: { url_svg: string, url_png: string, emoji: string }
+  flag: { url_svg: string, url_png: string }
   region: string
   population: number
   languages: { name: string }[]
@@ -38,7 +38,7 @@ export default defineCachedEventHandler(
             limit: PAGE_LIMIT,
             offset,
             response_fields:
-              'names.common,codes.alpha_2,capitals.name,flag.url_svg,flag.emoji,region,population,languages.name,calling_codes'
+              'names.common,codes.alpha_2,capitals.name,flag.url_svg,region,population,languages.name,calling_codes'
           }
         }
       )
@@ -55,7 +55,6 @@ export default defineCachedEventHandler(
         cca2: country.codes.alpha_2,
         capital: country.capitals?.[0]?.name ?? '',
         flagUrl: country.flag?.url_svg ?? '',
-        flagEmoji: country.flag?.emoji ?? '',
         region: country.region,
         population: country.population,
         languages: (country.languages ?? []).map(language => language.name),

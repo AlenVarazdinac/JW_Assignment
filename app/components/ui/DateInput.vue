@@ -83,12 +83,7 @@ function handleSelect (value: string) {
   close()
 }
 
-function handleClickOutside (event: MouseEvent) {
-  if (!rootEl.value?.contains(event.target as Node)) close()
-}
-
-onMounted(() => document.addEventListener('click', handleClickOutside))
-onUnmounted(() => document.removeEventListener('click', handleClickOutside))
+useClickOutside(rootEl, close)
 </script>
 
 <template>

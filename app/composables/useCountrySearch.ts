@@ -27,6 +27,20 @@ export function useCountrySearch (getCountries: () => Country[], getExcludeCca2?
     return fuse.value.search(query).map(result => result.item)
   })
 
+  const highlightedIndex = ref(0)
+
+  watch(filteredCountries, () => {
+    highlightedIndex.value = 0
+  })
+
+  function highlightNext () {
+    highlightedIndex.value = Math.min(highlightedIndex.value + 1, filteredCountries.value.length - 1)
+  }
+
+  function highlightPrev () {
+    highlightedIndex.value = Math.max(highlightedIndex.value - 1, 0)
+  }
+
   function clearSearch () {
     search.value = ''
     searchInputEl.value?.focus()
@@ -35,16 +49,21 @@ export function useCountrySearch (getCountries: () => Country[], getExcludeCca2?
   function close () {
     search.value = ''
     isOpen.value = false
+    highlightedIndex.value = 0
   }
 
-  function handleClickOutside (event: MouseEvent) {
-    if (rootEl.value && !rootEl.value.contains(event.target as Node)) {
-      isOpen.value = false
-    }
+  useClickOutside(rootEl, close)
+
+  return {
+    search,
+    isOpen,
+    rootEl,
+    searchInputEl,
+    filteredCountries,
+    highlightedIndex,
+    highlightNext,
+    highlightPrev,
+    clearSearch,
+    close
   }
-
-  onMounted(() => document.addEventListener('click', handleClickOutside))
-  onUnmounted(() => document.removeEventListener('click', handleClickOutside))
-
-  return { search, isOpen, rootEl, searchInputEl, filteredCountries, clearSearch, close }
 }

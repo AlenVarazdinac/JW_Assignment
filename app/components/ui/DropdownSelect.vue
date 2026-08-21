@@ -17,8 +17,25 @@ const emit = defineEmits<{
   'update:modelValue': [value: Country | null]
 }>()
 
-const { search, isOpen, rootEl, searchInputEl, filteredCountries, clearSearch, close }
-  = useCountrySearch(() => props.countries, () => props.excludeCca2)
+const {
+  search,
+  isOpen,
+  rootEl,
+  searchInputEl,
+  filteredCountries,
+  highlightedIndex,
+  highlightNext,
+  highlightPrev,
+  clearSearch,
+  close
+} = useCountrySearch(() => props.countries, () => props.excludeCca2)
+
+const itemRefs = ref<HTMLLIElement[]>([])
+
+watch(highlightedIndex, async (index) => {
+  await nextTick()
+  itemRefs.value[index]?.scrollIntoView({ block: 'nearest' })
+})
 
 function toggle () {
   isOpen.value = !isOpen.value
@@ -27,6 +44,11 @@ function toggle () {
 function selectCountry (country: Country) {
   emit('update:modelValue', country)
   close()
+}
+
+function selectHighlighted () {
+  const country = filteredCountries.value[highlightedIndex.value]
+  if (country) selectCountry(country)
 }
 </script>
 
@@ -56,6 +78,10 @@ function selectCountry (country: Country) {
           type="text"
           placeholder="Search country..."
           class="w-full bg-transparent text-placeholder text-black outline-none placeholder:text-gray-400"
+          @keydown.down.prevent="highlightNext"
+          @keydown.up.prevent="highlightPrev"
+          @keydown.enter.prevent="selectHighlighted"
+          @keydown.esc="close"
         />
         <button
           v-if="search"
@@ -76,10 +102,13 @@ function selectCountry (country: Country) {
           No countries found
         </li>
         <li
-          v-for="country in filteredCountries"
+          v-for="(country, index) in filteredCountries"
           :key="country.cca2"
-          class="flex cursor-pointer items-center gap-2 px-4 py-2.5 text-placeholder text-black hover:bg-gray-50"
+          ref="itemRefs"
+          class="flex cursor-pointer items-center gap-2 px-4 py-2.5 text-placeholder text-black"
+          :class="index === highlightedIndex ? 'bg-gray-50' : ''"
           @click="selectCountry(country)"
+          @mouseenter="highlightedIndex = index"
         >
           <img
             :src="country.flagUrl"

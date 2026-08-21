@@ -47,17 +47,15 @@ export const useVisaApplicationStore = defineStore('visaApplication', () => {
     return true
   }
 
-  function goToStep (step: number) {
-    currentStep.value = step
-  }
+  const TOTAL_STEPS = 3
 
   function nextStep () {
     if (!validateStep(currentStep.value)) return
-    currentStep.value += 1
+    currentStep.value = Math.min(currentStep.value + 1, TOTAL_STEPS)
   }
 
   function prevStep () {
-    currentStep.value -= 1
+    currentStep.value = Math.max(currentStep.value - 1, 1)
   }
 
   function reset () {
@@ -66,5 +64,5 @@ export const useVisaApplicationStore = defineStore('visaApplication', () => {
     Object.assign(errors, createErrors())
   }
 
-  return { application, currentStep, errors, goToStep, nextStep, prevStep, reset }
+  return { application, currentStep, errors, nextStep, prevStep, reset }
 })

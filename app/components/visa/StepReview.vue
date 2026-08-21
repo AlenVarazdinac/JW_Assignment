@@ -30,7 +30,10 @@ function submit () {
 </script>
 
 <template>
-  <div class="rounded-b-xl bg-white pt-11 pb-4">
+  <form
+    class="rounded-b-xl bg-white pt-11 pb-4"
+    @submit.prevent="submit"
+  >
     <div class="px-7">
       <h2 class="mb-1.5 text-heading-m-bold text-black">
         Review & Confirm
@@ -67,49 +70,14 @@ function submit () {
           v-if="route"
           class="flex flex-col gap-3"
         >
-          <div class="flex flex-1 items-start gap-4 rounded-xl border border-gray-200 px-4 py-3">
-            <img
-              :src="route.citizenship.flagUrl"
-              :alt="`${route.citizenship.name} flag`"
-              class="size-8 shrink-0 rounded-full object-cover"
-            />
-            <div>
-              <p class="text-body-xs text-gray-800">
-                Citizenship
-              </p>
-              <p class="mb-1 text-button-s text-black">
-                {{ route.citizenship.name }}
-              </p>
-              <p class="text-body-xs text-gray-800">
-                Pop: {{ route.citizenship.population.toLocaleString('en-US') }} &bull; {{ route.citizenship.region }}
-              </p>
-              <p class="text-body-xs text-gray-800">
-                {{ route.citizenship.languages.join(', ') }}
-              </p>
-            </div>
-          </div>
-
-          <div class="flex flex-1 items-start gap-4 rounded-xl border border-gray-200 px-4 py-3">
-            <img
-              :src="route.destination.flagUrl"
-              :alt="`${route.destination.name} flag`"
-              class="size-8 shrink-0 rounded-full object-cover"
-            />
-            <div>
-              <p class="text-body-xs text-gray-800">
-                Destination
-              </p>
-              <p class="mb-1 text-button-s text-black">
-                {{ route.destination.name }}
-              </p>
-              <p class="text-body-xs text-gray-800">
-                Pop: {{ route.destination.population.toLocaleString('en-US') }} &bull; {{ route.destination.region }}
-              </p>
-              <p class="text-body-xs text-gray-800">
-                {{ route.destination.languages.join(', ') }}
-              </p>
-            </div>
-          </div>
+          <UiCountryInfoCard
+            label="Citizenship"
+            :country="route.citizenship"
+          />
+          <UiCountryInfoCard
+            label="Destination"
+            :country="route.destination"
+          />
         </div>
       </div>
 
@@ -140,7 +108,7 @@ function submit () {
         />
       </UiIconButton>
 
-      <UiButton @click="submit">
+      <UiButton type="submit">
         Submit Application
         <template #icon-right>
           <Icon
@@ -150,5 +118,5 @@ function submit () {
         </template>
       </UiButton>
     </div>
-  </div>
+  </form>
 </template>

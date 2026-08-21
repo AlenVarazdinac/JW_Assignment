@@ -6,7 +6,6 @@ const props = defineProps<{
   supportText?: string
   disabled?: boolean
   error?: boolean
-  readonly?: boolean
   type?: string
   autocomplete?: string
   name?: string
@@ -65,7 +64,6 @@ const supportTextClasses = computed(() => {
         :type="type ?? 'text'"
         :placeholder="placeholder"
         :disabled
-        :readonly
         :autocomplete="autocomplete"
         :name="name"
         :autofocus="autofocus"
