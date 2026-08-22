@@ -78,7 +78,10 @@ const validatedRoute = computed(() => {
           <p class="text-body-xs text-gray-800">
             Route Validated
           </p>
-          <p class="flex items-center text-button-s text-black">
+          <p
+            class="flex items-center text-button-s text-black"
+            data-testid="route-summary"
+          >
             {{ validatedRoute.citizenship.name }}
             <Icon
               name="custom:arrow-right"

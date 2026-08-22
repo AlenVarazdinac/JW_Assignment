@@ -5,7 +5,7 @@ const { nextStep, prevStep } = visaApplicationStore
 const { countries } = useCountries()
 
 const phoneCountry = computed({
-  get: () => application.value.phoneCountry ?? application.value.citizenship,
+  get: () => resolvePhoneCountry(application.value.phoneCountry, application.value.citizenship),
   set: value => (application.value.phoneCountry = value)
 })
 </script>

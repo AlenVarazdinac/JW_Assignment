@@ -9,10 +9,9 @@ const route = computed(() => {
   return { citizenship: application.value.citizenship, destination: application.value.destination }
 })
 
-const phoneDisplay = computed(() => {
-  const callingCode = (application.value.phoneCountry ?? application.value.citizenship)?.callingCode
-  return callingCode ? `${callingCode} ${application.value.phone}` : application.value.phone
-})
+const phoneDisplay = computed(() =>
+  formatPhoneDisplay(application.value.phone, application.value.phoneCountry, application.value.citizenship)
+)
 
 const dobDisplay = computed(() => {
   if (!application.value.dateOfBirth) return '-'
