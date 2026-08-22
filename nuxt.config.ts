@@ -9,7 +9,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ['~/assets/css/main.css'],
   runtimeConfig: {
-    restCountriesApiKey: process.env.RESTCOUNTRIES_API_KEY
+    restCountriesApiKey: ''
   },
   compatibilityDate: '2025-07-15',
   vite: {
