@@ -16,19 +16,24 @@ function handlePhoneInput (value: string) {
   application.value.phone = value
 }
 
-function handlePhoneBlur () {
+function normalizePhone () {
   const detected = detectPhoneCountry(application.value.phone, countries.value)
   if (!detected) return
 
   phoneCountry.value = detected.country
   application.value.phone = detected.rest
 }
+
+function handleSubmit () {
+  normalizePhone()
+  nextStep()
+}
 </script>
 
 <template>
   <form
     class="rounded-b-xl bg-white pt-11 pb-4"
-    @submit.prevent="nextStep"
+    @submit.prevent="handleSubmit"
   >
     <div class="px-7">
       <h2 class="mb-1.5 text-heading-m-bold text-black">
@@ -61,7 +66,7 @@ function handlePhoneBlur () {
           :support-text="errors.phone"
           :error="!!errors.phone"
           @update:model-value="handlePhoneInput"
-          @blur="handlePhoneBlur"
+          @blur="normalizePhone"
         >
           <template #leading>
             <UiPhoneCountryCodeSelect
