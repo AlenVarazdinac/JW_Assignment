@@ -20,6 +20,26 @@ http://egg8840wcgg8sc0kkgk0c04s.128.140.84.55.sslip.io/
 
 Hosted on a Hetzner VPS via Coolify. The URL is a [sslip.io](http://egg8840wcgg8sc0kkgk0c04s.128.140.84.55.sslip.io/) served over plain HTTP for now, no SSL configured on the Coolify side yet.
 
+## Architecture Decisions
+
+**Data & API**
+- Nuxt over plain Vue 3 - the REST Countries key had to stay server-side, so the app needed a backend regardless. Nuxt's Nitro server (`server/api/`) provides that in the same codebase and deployment, instead of standing up a separate API server.
+- REST Countries v5 needs a Bearer key and paginates at 100 results - `server/api/countries.get.ts` pages through it, normalizes the shape, and keeps the key off the client.
+- Nitro's in-memory cache (6h) is enough since deployment is a single long-running container, shared across all users without needing Redis.
+
+**State & Config**
+- Pinia over plain composables - `pinia-plugin-persistedstate` handles the applications list's sessionStorage persistence declaratively, instead of hand-rolling a watcher to sync state to storage. Devtools time-travel debugging comes along as a bonus.
+- The API key is read via Nuxt's `NUXT_`-prefixed runtime config, not `process.env` directly - the latter bakes build-time values into the output, which is empty in a Docker build where the key is only known at `docker run`.
+
+**UI & Testing**
+- Tailwind v4 + hand-built components - full control over markup/accessibility, Figma tokens as CSS-first `@theme`, default palette reset so only design-system colors are usable.
+- Icons as a local `@nuxt/icon` collection using `currentColor`. No per-icon Vue component needed.
+- Fuse.js for fuzzy search, Vue `<Transition>` for step animation.
+- Vitest (component + composable + utility) and one Playwright E2E test covering the full wizard flow.
+
+**Deployment**
+- Docker: `deps` → `builder` → `runner` stages, final image is just Nitro's self-contained `.output`, runs as a non-root user.
+
 ## The Challenge
 
 Your task is to build a **Multi-Step Travel Visa Application Wizard** using **Vue 3** or **Nuxt 4** (your choice). The app integrates with the [REST Countries API](https://restcountries.com/) to pull country data and displays it as demonstrated in the provided design.
