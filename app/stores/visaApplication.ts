@@ -31,6 +31,14 @@ export const useVisaApplicationStore = defineStore('visaApplication', () => {
   const currentStep = ref(1)
   const errors = reactive<Record<string, string>>(createErrors())
 
+  watch(() => application.citizenship, () => (errors.citizenship = ''))
+  watch(() => application.destination, () => (errors.destination = ''))
+  watch(() => application.fullName, () => (errors.fullName = ''))
+  watch(() => application.email, () => (errors.email = ''))
+  watch(() => application.phone, () => (errors.phone = ''))
+  watch(() => application.dateOfBirth, () => (errors.dateOfBirth = ''))
+  watch(() => application.passportNumber, () => (errors.passportNumber = ''))
+
   function validateStep (step: number): boolean {
     if (step === 1) {
       const stepErrors = validateCountrySelection(application)
