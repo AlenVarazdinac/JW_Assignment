@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { formatPhoneDisplay, resolvePhoneCountry } from '~/utils/phone'
+import { detectPhoneCountry, formatPhoneDisplay, resolvePhoneCountry } from '~/utils/phone'
 import type { Country } from '~/types/country'
 
 function createCountry (overrides: Partial<Country> = {}): Country {
@@ -47,5 +47,38 @@ describe('formatPhoneDisplay', () => {
 
   it('returns the raw phone number when no calling code is available', () => {
     expect(formatPhoneDisplay('912345678', null, null)).toBe('912345678')
+  })
+})
+
+describe('detectPhoneCountry', () => {
+  const croatia = createCountry({ name: 'Croatia', cca2: 'HR', callingCode: '+385' })
+  const spain = createCountry({ name: 'Spain', cca2: 'ES', callingCode: '+34' })
+  const countries = [croatia, spain]
+
+  it('returns null when the value does not start with a plus sign', () => {
+    expect(detectPhoneCountry('385919802228', countries)).toBeNull()
+  })
+
+  it('returns null when no country matches the typed prefix', () => {
+    expect(detectPhoneCountry('+999919802228', countries)).toBeNull()
+  })
+
+  it('detects the country from a full international number and strips the calling code', () => {
+    expect(detectPhoneCountry('+385919802228', countries)).toEqual({ country: croatia, rest: '919802228' })
+  })
+
+  it('trims a leading space left after the calling code', () => {
+    expect(detectPhoneCountry('+385 919802228', countries)).toEqual({ country: croatia, rest: '919802228' })
+  })
+
+  it('matches the longest calling code when one is a prefix of another', () => {
+    const shortCode = createCountry({ name: 'ShortCode', cca2: 'SC', callingCode: '+3' })
+    const longCode = createCountry({ name: 'Croatia', cca2: 'HR', callingCode: '+385' })
+    const result = detectPhoneCountry('+385919802228', [shortCode, longCode])
+    expect(result?.country).toEqual(longCode)
+  })
+
+  it('returns null while only a partial calling code has been typed', () => {
+    expect(detectPhoneCountry('+3', countries)).toBeNull()
   })
 })

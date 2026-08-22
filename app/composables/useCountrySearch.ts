@@ -24,7 +24,20 @@ export function useCountrySearch (getCountries: () => Country[], getExcludeCca2?
   const filteredCountries = computed(() => {
     const query = search.value.trim()
     if (!query) return availableCountries.value
-    return fuse.value.search(query).map(result => result.item)
+
+    const digitsQuery = query.replace(/^\+/, '')
+    const codeMatches = /^\d+$/.test(digitsQuery)
+      ? availableCountries.value.filter(country => country.callingCode.replace('+', '').includes(digitsQuery))
+      : []
+
+    const nameMatches = fuse.value.search(query).map(result => result.item)
+
+    const seen = new Set<string>()
+    return [...codeMatches, ...nameMatches].filter((country) => {
+      if (seen.has(country.cca2)) return false
+      seen.add(country.cca2)
+      return true
+    })
   })
 
   const highlightedIndex = ref(0)

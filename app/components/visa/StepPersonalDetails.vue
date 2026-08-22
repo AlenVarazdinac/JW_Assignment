@@ -8,6 +8,21 @@ const phoneCountry = computed({
   get: () => resolvePhoneCountry(application.value.phoneCountry, application.value.citizenship),
   set: value => (application.value.phoneCountry = value)
 })
+
+function handlePhoneInput (value: string) {
+  const detected = detectPhoneCountry(value, countries.value)
+  if (detected) phoneCountry.value = detected.country
+
+  application.value.phone = value
+}
+
+function handlePhoneBlur () {
+  const detected = detectPhoneCountry(application.value.phone, countries.value)
+  if (!detected) return
+
+  phoneCountry.value = detected.country
+  application.value.phone = detected.rest
+}
 </script>
 
 <template>
@@ -40,11 +55,13 @@ const phoneCountry = computed({
           :error="!!errors.email"
         />
         <UiTextInput
-          v-model="application.phone"
+          :model-value="application.phone"
           type="tel"
           label="Phone Number"
           :support-text="errors.phone"
           :error="!!errors.phone"
+          @update:model-value="handlePhoneInput"
+          @blur="handlePhoneBlur"
         >
           <template #leading>
             <UiPhoneCountryCodeSelect
