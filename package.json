@@ -9,7 +9,10 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@nuxt/fonts": "^0.14.0",
@@ -26,7 +29,12 @@
   },
   "devDependencies": {
     "@nuxt/eslint": "^1.17.0",
+    "@nuxt/test-utils": "^4.1.0",
+    "@playwright/test": "^1.62.1",
     "@types/node": "^26.2.0",
-    "eslint": "^10.8.1"
+    "@vue/test-utils": "^2.4.11",
+    "eslint": "^10.8.1",
+    "happy-dom": "^20.11.6",
+    "vitest": "^4.1.11"
   }
 }
