@@ -39,33 +39,11 @@ function formatSubmittedAt (date: Date): string {
         :key="submitted.id"
         class="flex w-full items-center justify-between rounded-xl border border-gray-100 bg-white px-5 py-5 shadow-elevation-1"
       >
-        <div class="flex items-center gap-5">
-          <div class="flex -space-x-2">
-            <img
-              :src="submitted.citizenship?.flagUrl"
-              :alt="`${submitted.citizenship?.name} flag`"
-              class="size-7 shrink-0 rounded-full object-cover ring-2 ring-white"
-            />
-            <img
-              :src="submitted.destination?.flagUrl"
-              :alt="`${submitted.destination?.name} flag`"
-              class="size-7 shrink-0 rounded-full object-cover ring-2 ring-white"
-            />
-          </div>
-          <div>
-            <p class="text-body-xs text-gray-800">
-              {{ submitted.fullName }}
-            </p>
-            <p class="flex items-center gap-1.5 text-button-s text-black">
-              {{ submitted.citizenship?.name }}
-              <Icon
-                name="custom:arrow-right"
-                class="size-4.5 text-black"
-              />
-              {{ submitted.destination?.name }}
-            </p>
-          </div>
-        </div>
+        <UiCountryRoutePreview
+          :citizenship="submitted.citizenship!"
+          :destination="submitted.destination!"
+          :label="submitted.fullName"
+        />
 
         <div class="flex items-center gap-5">
           <div class="text-right">
