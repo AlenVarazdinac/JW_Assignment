@@ -6,13 +6,17 @@ function randomStatus (): ApplicationStatus {
   return STATUSES[Math.floor(Math.random() * STATUSES.length)]!
 }
 
+function generateId (): string {
+  return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`
+}
+
 export const useApplicationsListStore = defineStore('applicationsList', () => {
   const applications = ref<SubmittedApplication[]>([])
 
   function addApplication (application: VisaApplication) {
     applications.value.unshift({
       ...application,
-      id: crypto.randomUUID(),
+      id: generateId(),
       submittedAt: new Date(),
       status: randomStatus()
     })
