@@ -1,5 +1,25 @@
 # Frontend Assignment — Multi-Step Travel Visa Application Wizard
 
+## Setup & Installation
+
+```bash
+npm install
+cp .env.example .env   # then fill in NUXT_REST_COUNTRIES_API_KEY, see below
+npm run dev
+```
+
+- Requires a REST Countries **v5** API key (free tier) - sign up at [restcountries.com/sign-up](https://restcountries.com/sign-up).
+- `npm run lint` / `npm run lint:fix` - ESLint (Nuxt + TypeScript + Vue + Stylistic rules).
+- `npm run test` - Vitest unit tests.
+- `npm run test:e2e` - Playwright end-to-end test of the full wizard flow (run `npx playwright install chromium` once first).
+- `npm run test:all` - Runs all tests (unit and end-to-end).
+
+## Live Demo
+
+http://egg8840wcgg8sc0kkgk0c04s.128.140.84.55.sslip.io/
+
+Hosted on a Hetzner VPS via Coolify. The URL is a [sslip.io](http://egg8840wcgg8sc0kkgk0c04s.128.140.84.55.sslip.io/) served over plain HTTP for now, no SSL configured on the Coolify side yet.
+
 ## The Challenge
 
 Your task is to build a **Multi-Step Travel Visa Application Wizard** using **Vue 3** or **Nuxt 4** (your choice). The app integrates with the [REST Countries API](https://restcountries.com/) to pull country data and displays it as demonstrated in the provided design.
