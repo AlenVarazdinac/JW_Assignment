@@ -13,6 +13,7 @@ npm run dev
 - `npm run test` - Vitest unit tests.
 - `npm run test:e2e` - Playwright end-to-end test of the full wizard flow (run `npx playwright install chromium` once first).
 - `npm run test:all` - Runs all tests (unit and end-to-end).
+- CI (`.github/workflows/ci.yml`) runs the same E2E test against the real REST Countries API, so the repo needs a `NUXT_REST_COUNTRIES_API_KEY` GitHub Actions secret (Settings → Secrets and variables → Actions) for that job to pass.
 
 ## Live Demo
 
