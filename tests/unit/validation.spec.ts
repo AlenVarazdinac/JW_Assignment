@@ -1,5 +1,14 @@
 import { describe, expect, it } from 'vitest'
-import { hasErrors, isRequired, isValidEmail, isValidPastDate, validatePersonalDetails } from '~/utils/validation'
+import {
+  hasErrors,
+  isRequired,
+  isValidEmail,
+  isValidFullName,
+  isValidPassportNumber,
+  isValidPastDate,
+  isValidPhone,
+  validatePersonalDetails
+} from '~/utils/validation'
 import type { VisaApplication } from '~/types/visa-application'
 
 function createApplication (overrides: Partial<VisaApplication> = {}): VisaApplication {
@@ -55,6 +64,63 @@ describe('isValidPastDate', () => {
   it('accepts a valid date in the past', () => {
     expect(isValidPastDate('1990-03-15')).toBe(true)
   })
+
+  it('rejects an implausibly old date, like a typo landing on the year 100', () => {
+    expect(isValidPastDate('0100-01-01')).toBe(false)
+  })
+
+  it('rejects a date older than 120 years', () => {
+    const tooOldYear = new Date().getFullYear() - 121
+    expect(isValidPastDate(`${tooOldYear}-01-01`)).toBe(false)
+  })
+})
+
+describe('isValidFullName', () => {
+  it('rejects a name with no letters', () => {
+    expect(isValidFullName('12345')).toBe(false)
+    expect(isValidFullName('!!!')).toBe(false)
+  })
+
+  it('accepts a simple name', () => {
+    expect(isValidFullName('John Doe')).toBe(true)
+  })
+
+  it('accepts accented and hyphenated names', () => {
+    expect(isValidFullName('José García-López')).toBe(true)
+  })
+})
+
+describe('isValidPhone', () => {
+  it('rejects letters', () => {
+    expect(isValidPhone('abcdefgh')).toBe(false)
+  })
+
+  it('rejects an implausibly short number', () => {
+    expect(isValidPhone('12')).toBe(false)
+  })
+
+  it('accepts a plausible local number', () => {
+    expect(isValidPhone('912345678')).toBe(true)
+  })
+
+  it('accepts common separators like spaces and dashes', () => {
+    expect(isValidPhone('91 234 5678')).toBe(true)
+    expect(isValidPhone('91-234-5678')).toBe(true)
+  })
+})
+
+describe('isValidPassportNumber', () => {
+  it('rejects a value that is too short', () => {
+    expect(isValidPassportNumber('AB12')).toBe(false)
+  })
+
+  it('rejects symbols', () => {
+    expect(isValidPassportNumber('AB-123456')).toBe(false)
+  })
+
+  it('accepts a plausible alphanumeric passport number', () => {
+    expect(isValidPassportNumber('AB1234567')).toBe(true)
+  })
 })
 
 describe('validatePersonalDetails', () => {
@@ -88,6 +154,21 @@ describe('validatePersonalDetails', () => {
     const futureYear = new Date().getFullYear() + 5
     const errors = validatePersonalDetails(createApplication({ dateOfBirth: `${futureYear}-01-01` }))
     expect(errors.dateOfBirth).toBe('Enter a valid date of birth')
+  })
+
+  it('flags a full name with no letters as invalid rather than missing', () => {
+    const errors = validatePersonalDetails(createApplication({ fullName: '12345' }))
+    expect(errors.fullName).toBe('Enter a valid full name')
+  })
+
+  it('flags a phone number containing letters as invalid rather than missing', () => {
+    const errors = validatePersonalDetails(createApplication({ phone: 'abcdefgh' }))
+    expect(errors.phone).toBe('Enter a valid phone number')
+  })
+
+  it('flags a too-short passport number as invalid rather than missing', () => {
+    const errors = validatePersonalDetails(createApplication({ passportNumber: 'AB12' }))
+    expect(errors.passportNumber).toBe('Enter a valid passport number')
   })
 })
 
