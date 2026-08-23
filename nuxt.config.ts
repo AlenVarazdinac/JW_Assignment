@@ -7,6 +7,11 @@ const { resolve } = createResolver(import.meta.url)
 export default defineNuxtConfig({
   modules: ['@nuxt/fonts', '@nuxt/icon', '@nuxt/eslint', '@pinia/nuxt', 'pinia-plugin-persistedstate/nuxt'],
   devtools: { enabled: true },
+  app: {
+    head: {
+      viewport: 'width=device-width, initial-scale=1'
+    }
+  },
   css: ['~/assets/css/main.css'],
   runtimeConfig: {
     restCountriesApiKey: ''

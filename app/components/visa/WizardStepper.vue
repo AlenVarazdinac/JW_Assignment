@@ -19,14 +19,14 @@ const steps = computed(() =>
 </script>
 
 <template>
-  <div class="flex items-center rounded-t-xl bg-primary-25 px-7 py-5">
+  <div class="flex items-center rounded-t-xl bg-primary-25 px-4 py-4 sm:px-7 sm:py-5">
     <template
       v-for="(item, index) in steps"
       :key="item.step"
     >
       <div
         v-if="index > 0"
-        class="mx-3 h-px flex-1 border-t border-dashed"
+        class="mx-1.5 h-px flex-1 border-t border-dashed sm:mx-3"
         :class="item.isConnectorActive ? 'border-primary-600' : 'border-primary-200'"
       />
 
@@ -42,7 +42,7 @@ const steps = computed(() =>
           />
         </span>
         <span
-          class="text-input-label"
+          class="hidden text-input-label sm:inline"
           :class="item.isActive ? 'text-primary-700' : 'text-primary-200'"
         >
           {{ item.label }}

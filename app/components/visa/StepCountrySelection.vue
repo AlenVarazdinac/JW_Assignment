@@ -15,7 +15,7 @@ const validatedRoute = computed(() => {
     class="rounded-b-xl bg-white pt-11 pb-4"
     @submit.prevent="nextStep"
   >
-    <div class="px-7">
+    <div class="px-4 sm:px-7">
       <h2 class="mb-1.5 text-heading-m-bold text-black">
         Select your journey
       </h2>
@@ -37,7 +37,7 @@ const validatedRoute = computed(() => {
       </p>
 
       <div
-        class="grid grid-cols-2 gap-6"
+        class="grid grid-cols-1 gap-6 sm:grid-cols-2"
         :class="!validatedRoute ? 'mb-30.5' : ''"
       >
         <UiCountrySelect
@@ -78,7 +78,7 @@ const validatedRoute = computed(() => {
 
     <hr class="mb-4 border-t border-gray-100" />
 
-    <div class="flex justify-end px-7">
+    <div class="flex justify-end px-4 sm:px-7">
       <UiButton type="submit">
         Continue
         <template #icon-right>

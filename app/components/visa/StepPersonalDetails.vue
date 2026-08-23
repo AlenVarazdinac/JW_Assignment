@@ -35,7 +35,7 @@ function handleSubmit () {
     class="rounded-b-xl bg-white pt-11 pb-4"
     @submit.prevent="handleSubmit"
   >
-    <div class="px-7">
+    <div class="px-4 sm:px-7">
       <h2 class="mb-1.5 text-heading-m-bold text-black">
         Personal Details
       </h2>
@@ -43,7 +43,7 @@ function handleSubmit () {
         Please provide accurate information as it appears on your official documents.
       </p>
 
-      <div class="grid grid-cols-2 gap-4">
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <UiTextInput
           v-model="application.fullName"
           label="Full Name"
@@ -93,7 +93,7 @@ function handleSubmit () {
 
     <hr class="mt-11 mb-4 border-t border-gray-100" />
 
-    <div class="flex justify-between px-7">
+    <div class="flex justify-between px-4 sm:px-7">
       <UiIconButton
         variant="gray-outline"
         size="sm"

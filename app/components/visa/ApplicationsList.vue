@@ -37,7 +37,7 @@ function formatSubmittedAt (date: Date): string {
       <div
         v-for="submitted in applications"
         :key="submitted.id"
-        class="flex w-full items-center justify-between rounded-xl border border-gray-100 bg-white px-5 py-5 shadow-elevation-1"
+        class="flex w-full flex-col gap-4 rounded-xl border border-gray-100 bg-white px-5 py-5 shadow-elevation-1 sm:flex-row sm:items-center sm:justify-between sm:gap-0"
       >
         <UiCountryRoutePreview
           :citizenship="submitted.citizenship!"

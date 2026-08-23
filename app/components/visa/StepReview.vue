@@ -33,7 +33,7 @@ function submit () {
     class="rounded-b-xl bg-white pt-11 pb-4"
     @submit.prevent="submit"
   >
-    <div class="px-7">
+    <div class="px-4 sm:px-7">
       <h2 class="mb-1.5 text-heading-m-bold text-black">
         Review & Confirm
       </h2>
@@ -41,7 +41,7 @@ function submit () {
         Final check of your application data before submission.
       </p>
 
-      <div class="grid grid-cols-2 gap-5">
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <div class="flex flex-col gap-2 rounded-xl border border-gray-200 bg-gray-50 px-6 py-5">
           <div class="flex items-center justify-between">
             <span class="text-body-s text-gray-700">Name</span>
@@ -94,7 +94,7 @@ function submit () {
 
     <hr class="mt-11 mb-4 border-t border-gray-100" />
 
-    <div class="flex justify-between px-7">
+    <div class="flex justify-between px-4 sm:px-7">
       <UiIconButton
         variant="gray-outline"
         size="sm"
