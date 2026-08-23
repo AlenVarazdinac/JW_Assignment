@@ -8,6 +8,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
+    "prepare": "simple-git-hooks",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "vitest run",
@@ -36,6 +37,14 @@
     "@vue/test-utils": "^2.4.11",
     "eslint": "^10.8.1",
     "happy-dom": "^20.11.6",
+    "lint-staged": "^17.3.0",
+    "simple-git-hooks": "^2.13.1",
     "vitest": "^4.1.11"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged"
+  },
+  "lint-staged": {
+    "*.{ts,vue,js}": "eslint --fix"
   }
 }
